@@ -31,3 +31,7 @@ https://weibo.com/aj/v6/comment/big?ajwvr=6&id=4367970740108457&root_comment_max
 
 
 14：17开始分析  到17：51写完脚本
+
+
+
+TODO downloadImg可以优化下，通过解析微博评论(html文档)，将用户的微博主页的链接设置为图片的名字，方便直接找到图片对应的用户
