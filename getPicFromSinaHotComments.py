@@ -6,6 +6,8 @@ import requests
 import json
 from pyquery import PyQuery as pq 
 import os
+import time
+
 
 '''
 	根据图片的src判断是否是用户评论中的图片
@@ -55,8 +57,7 @@ def getCommontsHtml(weiboId,pageNum):
 		调用新浪接口的cookie
 		先暂时直接去浏览器上拿来用,之后在搞自动获取cookie的  TODO
 	'''
-	Cookie='SINAGLOBAL=3830920360065.313.1557148481279; SUB=_2AkMrigF0f8NxqwJRmP4RzGLra4h_wgHEieKd1vCvJRMxHRl-yT83qkUOtRB6AAovmxW7GNrEnA4Ffi-HP1qYqzCd945I; SUBP=0033WrSXqPxfM72-Ws9jqgMF55529P9D9WF.7DBAUaXoZfhOArNkWz6A; UOR=fulibus.net,widget.weibo.com,fulibus.net; _s_tentry=fulibus.net; Apache=8803758653206.477.1560665785919; ULV=1560665785943:16:10:1:8803758653206.477.1560665785919:1560595319875; Ugrow-G0=9ec894e3c5cc0435786b4ee8ec8a55cc; YF-V5-G0=d30fd7265234f674761ebc75febc3a9f; WBtopGlobal_register_version=3cccf158e973a877; YF-Page-G0=530872e91ac9c5aa6d206eddf1bb6a70|1560670612|1560670597'
-
+	Cookie='SINAGLOBAL=3093814988429.984.1570710524997; SUB=_2AkMq_W7Nf8NxqwJRmP4VyWLhaIhwyg3EieKcoZ8WJRMxHRl-yT83qk8DtRB6AX1AIWmrmjNcfXv6QgcD3O728mGPHv5J; SUBP=0033WrSXqPxfM72-Ws9jqgMF55529P9D9WWAAUPYPUDyN8khYT-mbU7z; Apache=5930130329974.999.1571408069328; ULV=1571408069657:5:5:2:5930130329974.999.1571408069328:1570964691931; Ugrow-G0=1ac418838b431e81ff2d99457147068c; YF-V5-G0=f5a079faba115a1547149ae0d48383dc; YF-Page-G0=89906ffc3e521323122dac5d52f3e959|1571408553|1571408553'
 	#获取评论接口的请求头
 	headers={'Cookie':Cookie}
 
@@ -85,7 +86,11 @@ def getCommontsHtml(weiboId,pageNum):
 
 	#获取返回内容
 	response = r.text
+	print("pageNum : ",pageNum)
+	print("response = " + response)	
+	
 	responseJson = json.loads(response) 
+	
 	data = responseJson['data']
 	#评论内容
 	contentHtml = data['html']
@@ -100,6 +105,7 @@ def main(weiboId, filePath):
 	lastImgName = ''
 
 	while True:
+
 		contentHtml = getCommontsHtml(weiboId, pageNum)
 
 		#通过PyQuery来解析评论内容的html,获取所有img的标签
@@ -115,17 +121,19 @@ def main(weiboId, filePath):
 					return
 				downloadImg(filePath, imgName)
 				lastImgName = imgName
+			   #下载每张图片的时间间隔为2s
+				time.sleep(2)
 
 		pageNum = pageNum + 1 
+		#获取每一页评论的时间间隔为30s
+		time.sleep(30)
 
 """
 	脚本入口
 	第一个入参为微博id（https://weibo.com/aj/v6/comment/big 接口的 id参数）
 	比如下面这条微博 调用https://weibo.com/aj/v6/comment/big接口的时候传的参数中名为'id'的参数的值为4367970740108457
 	https://weibo.com/1595142854/Hswee0sdj?type=comment  
-
 	还没有找到方法通过某条任务的链接来获取微博id
-
 	第二个参数为保存图片的本地目录
 """
 if __name__ == '__main__':
@@ -136,10 +144,3 @@ if __name__ == '__main__':
 		main(weiboId, filePath)
 	else:
 		print("保存图片的目录请以'/'结尾")
-
-	
-	
-
-
-	
-
