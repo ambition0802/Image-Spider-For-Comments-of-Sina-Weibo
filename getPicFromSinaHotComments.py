@@ -121,12 +121,12 @@ def main(weiboId, filePath):
 					return
 				downloadImg(filePath, imgName)
 				lastImgName = imgName
-			   #下载每张图片的时间间隔为2s
-				time.sleep(2)
+			   #下载每张图片的时间间隔为5s
+				time.sleep(5)
 
 		pageNum = pageNum + 1 
-		#获取每一页评论的时间间隔为30s
-		time.sleep(30)
+		#获取每一页评论的时间间隔为15s
+		time.sleep(5)
 
 """
 	脚本入口
