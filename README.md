@@ -15,7 +15,7 @@ https://wx4.sinaimg.cn/thumb180/005KeDszgy1g2ohng3vfkj30u01hc7wh.jpg
 但是这个链接获取的图片是小图压缩过的，看起来很不爽啊，要看就看大图
 在评论区中找到对应的图片，点开图片发现请求的链接如下：
 https://wx4.sinaimg.cn/bmiddle/005KeDszgy1g2ohng3vfkj30u01hc7wh.jpg
-url中的thumb180编程了bmiddle，这个就是大图了~~~
+url中的thumb180变成了bmiddle，这个就是大图了~~~
 
 3.好了，知道用户评论中大图的请求链接格式之后，就要把所有的图片链接都收集起来了。
 通过在微博页面上操作，发现点击更多评论会请求这个接口https://weibo.com/aj/v6/comment/big，查看这个接口的返回值，在里面搜索wx4.sinaimg.cn,果然能搜到用户评论中的图片链接，经过测试，发现用户评论（自然包括图片链接了）确实是保存在这个接口中的，每次点击查看更多，就通过这个接口请求下面的评论并展示到页面中。下面就研究下这个接口找到规律就好了
